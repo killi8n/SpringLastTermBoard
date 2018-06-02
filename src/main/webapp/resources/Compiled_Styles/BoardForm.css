@@ -1,0 +1,67 @@
+.BoardForm {
+  width: 1024px;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+.BoardForm:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+@media (max-width: 1024px) {
+  .BoardForm {
+    width: 90%;
+  }
+}
+.BoardForm .Contents {
+  display: flex;
+  flex-direction: column;
+}
+.BoardForm .Contents .Line {
+  display: flex;
+  flex-direction: column;
+}
+.BoardForm .Contents .Line .Header {
+  display: flex;
+  flex: 1;
+  border: 1px solid black;
+}
+.BoardForm .Contents .Line .Header .Head {
+  flex: 1;
+  padding: 0.25rem;
+  text-align: center;
+}
+.BoardForm .Contents .Line .Header:hover {
+  background: #e9ecef;
+}
+.BoardForm .Contents .Line .Header:focus {
+  background: white;
+}
+.BoardForm .Contents .Line .Header .Head + .Head {
+  border-left: 1px solid black;
+}
+.BoardForm .Contents .Line .Body {
+  display: flex;
+  flex-direction: column;
+}
+.BoardForm .Contents .Line .Body .InnerLine {
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+}
+.BoardForm .Contents .Line .Body .InnerLine:hover {
+  background: #e9ecef;
+}
+.BoardForm .Contents .Line .Body .InnerLine:focus {
+  background: white;
+}
+.BoardForm .Contents .Line .Body .InnerLine .Content {
+  flex: 1;
+  padding: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

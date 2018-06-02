@@ -1,0 +1,20 @@
+create database lasttermboard;
+
+GRANT ALL PRIVILEGES ON lasttermboard.* TO lasttermuser@localhost
+ IDENTIFIED BY 'lastterm1234' WITH GRANT OPTION;
+ 
+CREATE TABLE lasttermboard.ACCOUNT (
+	id int not null auto_increment primary key,
+	username varchar(50) not null,
+	password varchar(100) not null,
+	email varchar(100) not null,
+	createdAt DATETIME default NOW() not null
+);
+
+CREATE TABLE lasttermboard.BOARD (
+	id int not null auto_increment primary key,
+	username varchar(50) not null,
+	title varchar(500) not null,
+	content varchar(5000) not null,
+	createdAt DATETIME default NOW() not null
+);

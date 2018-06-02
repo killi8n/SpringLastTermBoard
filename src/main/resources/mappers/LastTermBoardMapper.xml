@@ -1,0 +1,43 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.killi8n.board.mappers.LastTermBoardMapper">
+	<insert id="Register">
+		INSERT INTO ACCOUNT (username, password, email) VALUES(#{username}, #{password}, #{email});
+	</insert>
+	
+	<select id="CheckExisting" resultType="java.lang.Integer">
+		SELECT COUNT(*) as cnt FROM ACCOUNT WHERE username = #{username};
+	</select>
+	
+	<select id="GetUserDetail" resultType="com.killi8n.board.domain.Account">
+		SELECT * FROM ACCOUNT WHERE username = #{username};
+	</select>
+	
+	<insert id="WriteBoard">
+		INSERT INTO BOARD (username, title, content) VALUES (#{username}, #{title}, #{content});
+	</insert>
+	
+	<select id="GetAllBoards" parameterType="map" resultType="com.killi8n.board.domain.Board">
+		<![CDATA[
+			SELECT * FROM BOARD ORDER BY id DESC LIMIT ${pagingValue}, 10;
+		]]>
+	</select>
+	
+	<select id="GetCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM BOARD;
+	</select>
+	
+	<select id="GetBoardDetail" resultType="com.killi8n.board.domain.Board">
+		SELECT * FROM BOARD WHERE id = #{id};
+	</select>
+	
+	<update id="UpdateBoard">
+		UPDATE BOARD SET title = #{title}, content = #{content} WHERE id = #{id};
+	</update>
+	
+	<delete id="RemoveBoard">
+		DELETE FROM BOARD WHERE id = #{id};
+	</delete>
+	
+</mapper>

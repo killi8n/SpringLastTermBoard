@@ -1,0 +1,7 @@
+.PageTemplate {
+  display: flex;
+  flex-direction: column;
+}
+.PageTemplate main {
+  min-height: calc(100vh - 15rem);
+}
