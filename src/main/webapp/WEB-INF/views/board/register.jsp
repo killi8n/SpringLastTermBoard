@@ -16,7 +16,7 @@
 				아이디 
 			</div>
 			<div class="InputWrapper">
-				<input type="text" name="username" class="Input" />
+				<input type="text" name="username" class="Input" value="${username }" />
 			</div>
 		</div>
 		<div class="Line">
@@ -24,7 +24,7 @@
 				패스워드 
 			</div>
 			<div class="InputWrapper">
-				<input type="password" name="password" class="Input" />
+				<input type="password" name="password" class="Input" value="${password }" />
 			</div>
 		</div>
 		<div class="Line">
@@ -32,7 +32,7 @@
 				패스워드 체크  
 			</div>
 			<div class="InputWrapper">
-				<input type="password" name="passwordCheck" class="Input" />
+				<input type="password" name="passwordCheck" class="Input" value="${passwordCheck }" />
 			</div>
 		</div>
 		<div class="Line">
@@ -40,7 +40,7 @@
 				이메일 
 			</div>
 			<div class="InputWrapper">
-				<input type="email" name="email" class="Input" />
+				<input type="email" name="email" class="Input" value="${email }" />
 			</div>
 		</div>
 		<div class="ButtonWrapper">

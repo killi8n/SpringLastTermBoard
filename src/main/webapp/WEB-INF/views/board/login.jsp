@@ -12,13 +12,13 @@
 			<div class="Label">아이디</div>
 
 			<div class="InputWrapper">
-				<input type="text" name="username" class="Input" />
+				<input type="text" name="username" class="Input" value="${username }" />
 			</div>
 		</div>
 		<div class="Line">
 			<div class="Label">패스워드</div>
 			<div class="InputWrapper">
-				<input type="password" name="password" class="Input" />
+				<input type="password" name="password" class="Input" value="${password }" />
 			</div>
 		</div>
 
