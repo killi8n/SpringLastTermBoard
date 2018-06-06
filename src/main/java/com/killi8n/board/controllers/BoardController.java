@@ -270,12 +270,12 @@ public class BoardController {
 		
 		if(board.getTitle().equals("") || board.getTitle().trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "제목을 입력해주세요.");
-			return "redirect:/board/editor?" + board.getId();
+			return "redirect:/board/editor?id=" + board.getId();
 		}
 		
 		if(board.getContent().equals("") || board.getContent().trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "내용을 입력해주세요.");
-			return "redirect:/board/editor?" + board.getId();
+			return "redirect:/board/editor?id=" + board.getId();
 		}
 		
 		try {
