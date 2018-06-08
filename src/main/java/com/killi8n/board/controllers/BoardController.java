@@ -42,6 +42,10 @@ public class BoardController {
 			count = boardService.GetCount();
 			double LastPage = Math.ceil((double)count / 10);
 			
+			if(count == 0) {
+				return "board/index";
+			}
+			
 			System.out.println("LastPage: " + Math.ceil(count / 10));
 			System.out.println("Count: " + count);
 			
