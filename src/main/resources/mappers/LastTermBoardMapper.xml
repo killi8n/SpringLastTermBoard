@@ -41,15 +41,15 @@
 	</delete>
 	
 	<select id="GetBoardByTitle" resultType="com.killi8n.board.domain.Board">
-		SELECT * FROM BOARD WHERE title LIKE CONCAT('%',#{word},'%');
+		SELECT * FROM BOARD WHERE title LIKE CONCAT('%',#{word},'%') ORDER BY id DESC;
 	</select>
 	
 	<select id="GetBoardByUsername" resultType="com.killi8n.board.domain.Board">
-		SELECT * FROM BOARD WHERE username LIKE CONCAT('%',#{word},'%');
+		SELECT * FROM BOARD WHERE username LIKE CONCAT('%',#{word},'%') ORDER BY id DESC;
 	</select>
 	
 	<select id="GetBoardByContent" resultType="com.killi8n.board.domain.Board">
-		SELECT * FROM BOARD WHERE content LIKE CONCAT('%',#{word},'%');
+		SELECT * FROM BOARD WHERE content LIKE CONCAT('%',#{word},'%') ORDER BY id DESC;
 	</select>
 	
 </mapper>
