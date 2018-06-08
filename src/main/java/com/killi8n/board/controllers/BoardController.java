@@ -49,6 +49,12 @@ public class BoardController {
 			if(count == 0) {
 				return "board/index";
 			}
+<<<<<<< HEAD
+=======
+			
+			System.out.println("LastPage: " + Math.ceil(count / 10));
+			System.out.println("Count: " + count);
+>>>>>>> ee007bc7497d7f58a0de3f1cb4d1b35ddcbbbf81
 			
 			if(page > LastPage) {
 				return "redirect:/board/index?page=" + (int) LastPage;
@@ -137,11 +143,15 @@ public class BoardController {
 		String password = account.getPassword();
 		
 		if(username.trim().length() == 0 || username == null || username == "") {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "부적합한 아이디 입니다.");
 			return "redirect:/board/login";
 		}
 		
 		if(password.trim().length() == 0 || password == null || password == "") {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "부적합한 패스워드 입니다.");
 			return "redirect:/board/login";
 		}
@@ -153,6 +163,8 @@ public class BoardController {
 		}
 		
 		if(existing == 0) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "존재하지 않는 아이디입니다.");
 			return "redirect:/board/login";
 		}
@@ -163,6 +175,8 @@ public class BoardController {
 			Account userDetail = boardService.GetUserDetail(username);
 			
 			if(!userDetail.getPassword().equals(password)) {
+				redirectAttributes.addFlashAttribute("username", username);
+				redirectAttributes.addFlashAttribute("password", password);
 				redirectAttributes.addFlashAttribute("ErrorMessage", "패스워드가 일치하지 않습니다.");
 				return "redirect:/board/login";
 			}
@@ -198,21 +212,37 @@ public class BoardController {
 		String email = account.getEmail();
 		
 		if(username.equals("") || username == null || username.trim().length() == 0) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
+			redirectAttributes.addFlashAttribute("passwordCheck", passwordCheck);
+			redirectAttributes.addFlashAttribute("email", email);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "부적절한 아이디입니다.");
 			return "redirect:/board/register";
 		}
 		
 		if(!password.equals(passwordCheck)) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
+			redirectAttributes.addFlashAttribute("passwordCheck", passwordCheck);
+			redirectAttributes.addFlashAttribute("email", email);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "두 비밀번호가 일치하지 않습니다.");
 			return "redirect:/board/register";
 		}
 		
 		if(password.length() < 6) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
+			redirectAttributes.addFlashAttribute("passwordCheck", passwordCheck);
+			redirectAttributes.addFlashAttribute("email", email);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "패스워드는 6자 이상으로 해주세요.");
 			return "redirect:/board/register";
 		}
 		
 		if(email.equals("") || email.trim().length() == 0 || email == null) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
+			redirectAttributes.addFlashAttribute("passwordCheck", passwordCheck);
+			redirectAttributes.addFlashAttribute("email", email);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "부적절한 이메일입니다.");
 			return "redirect:/board/register";
 		}
@@ -224,6 +254,10 @@ public class BoardController {
 		}
 		
 		if(existing != 0) {
+			redirectAttributes.addFlashAttribute("username", username);
+			redirectAttributes.addFlashAttribute("password", password);
+			redirectAttributes.addFlashAttribute("passwordCheck", passwordCheck);
+			redirectAttributes.addFlashAttribute("email", email);
 			redirectAttributes.addFlashAttribute("ErrorMessage", "이미 존재하는 아이디 입니다.");
 			return "redirect:/board/register";
 		}
@@ -326,12 +360,12 @@ public class BoardController {
 		
 		if(board.getTitle().equals("") || board.getTitle().trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "제목을 입력해주세요.");
-			return "redirect:/board/editor?" + board.getId();
+			return "redirect:/board/editor?id=" + board.getId();
 		}
 		
 		if(board.getContent().equals("") || board.getContent().trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "내용을 입력해주세요.");
-			return "redirect:/board/editor?" + board.getId();
+			return "redirect:/board/editor?id=" + board.getId();
 		}
 		
 		try {
