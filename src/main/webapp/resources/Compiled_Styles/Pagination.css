@@ -29,6 +29,19 @@
 .Pagination .Button:active {
   background: #228be6;
 }
+.Pagination .DisabledButton {
+  pointer-events: none;
+  background: #868e96;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  padding-top: 0.35rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.35rem;
+  padding-left: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+}
 .Pagination .Page {
   text-align: center;
   flex: 1;
@@ -70,7 +83,7 @@
   background: #4263eb;
 }
 .Pagination .Page .PageButtonCurrent:active {
-  background: #228be6;
+  background: #3b5bdb;
 }
 .Pagination .Page .PageButton + .PageButton {
   margin-left: 1rem;

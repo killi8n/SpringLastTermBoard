@@ -19,6 +19,17 @@
 .BoardForm .Contents {
   display: flex;
   flex-direction: column;
+  flex: 1;
+}
+.BoardForm .Contents .EmptyList {
+  display: flex;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+.BoardForm .Contents .EmptyList .Text {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 .BoardForm .Contents .Line {
   display: flex;
@@ -26,7 +37,6 @@
 }
 .BoardForm .Contents .Line .Header {
   display: flex;
-  flex: 1;
   border: 1px solid black;
 }
 .BoardForm .Contents .Line .Header .Head {
@@ -50,7 +60,7 @@
 .BoardForm .Contents .Line .Body .InnerLine {
   cursor: pointer;
   display: flex;
-  flex: 1;
+  /* flex: 1; */
 }
 .BoardForm .Contents .Line .Body .InnerLine:hover {
   background: #e9ecef;
@@ -64,4 +74,32 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.SearchZone {
+  width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  .SearchZone {
+    width: 90%;
+  }
+}
+.SearchZone .Selector select {
+  height: 2rem;
+  font-size: 1.5rem;
+}
+.SearchZone form input {
+  outline: none;
+  border: 1px solid #495057;
+  height: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  width: 10rem;
+}
+.SearchZone .Selector + form {
+  margin-left: 1rem;
 }

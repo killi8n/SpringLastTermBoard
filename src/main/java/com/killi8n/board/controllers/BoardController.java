@@ -1,5 +1,6 @@
 package com.killi8n.board.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Search;
 import com.killi8n.board.service.BoardService;
 
 @Controller
@@ -41,20 +43,25 @@ public class BoardController {
 		int displayingPerPage = 10;
 		boolean lessThanDpp = false;
 		boolean lastPageZone = false;
+		boolean emptyList = false;
+		boolean isLastPage = false;
+		boolean isFirstPage = false;
+		
+		model.addAttribute("isSearched", false);
 		
 		try {
 			count = boardService.GetCount();
 			double LastPage = Math.ceil((double)count / 10);
 			
 			if(count == 0) {
+				emptyList = true;
+				model.addAttribute("emptyList", emptyList);
 				return "board/index";
 			}
-<<<<<<< HEAD
-=======
+
 			
 			System.out.println("LastPage: " + Math.ceil(count / 10));
 			System.out.println("Count: " + count);
->>>>>>> ee007bc7497d7f58a0de3f1cb4d1b35ddcbbbf81
 			
 			if(page > LastPage) {
 				return "redirect:/board/index?page=" + (int) LastPage;
@@ -75,13 +82,27 @@ public class BoardController {
 			
 			System.out.println("LastPage: " + LastPage);
 
-			
+			model.addAttribute("emptyList", emptyList);
 			model.addAttribute("boardList", boardList);
 			model.addAttribute("LastPage", LastPage);
 			model.addAttribute("Page", page);
 			model.addAttribute("totalCount", count);
 			int totalPage = (int) Math.ceil((double) count / displayingPerPage);
 			model.addAttribute("totalPage", totalPage);
+			
+			if(page == LastPage) {
+				isLastPage = true;
+				model.addAttribute("isLastPage", isLastPage);
+			} else {
+				model.addAttribute("isLastPage", isLastPage);
+			}
+			
+			if(page == 1) {
+				isFirstPage = true;
+				model.addAttribute("isFirstPage", isFirstPage);
+			} else {
+				model.addAttribute("isFirstPage", isFirstPage);
+			}
 			
 			
 			if(displayingPageCount >= totalPage) {
@@ -122,7 +143,6 @@ public class BoardController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		
 		return "board/index";
@@ -395,5 +415,319 @@ public class BoardController {
 		}
 		
 		return "redirect:/board/index";
+	}
+	
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public String searchByWord(@RequestParam("searchWord") String searchWord, 
+			@RequestParam("searchCategory") String searchCategory, Model model,
+			@RequestParam("page") String pageParam) {
+		
+		Search search = new Search();
+		search.setCategory(searchCategory);
+		search.setWord(searchWord);
+		
+		model.addAttribute("isSearched", true);
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("category", searchCategory);
+		
+//		int displayingPageCount = 10;
+//		int displayingPerPage = 10;
+//		boolean lessThanDpp = false;
+//		boolean lastPageZone = false;
+//		boolean emptyList = false;
+//		boolean isLastPage = false;
+//		boolean isFirstPage = false;
+		
+		if(searchCategory.equals("title")) {
+			int totalCount;
+			int totalPage;
+			int page = Integer.parseInt(pageParam);
+			System.out.println("searchedCurrentPage: " + page);
+			int LastPage;
+			model.addAttribute("Page", page);
+			try {
+				List<Board> boardList = boardService.GetBoardByTitle(search);
+				totalCount = boardList.size();
+				System.out.println("totalCount: " + totalCount);
+				if(totalCount <= 10) {
+					model.addAttribute("isFirstPage", true);
+					model.addAttribute("LastPage", 1);
+					model.addAttribute("SearchedPage", page);
+					model.addAttribute("lessThanDpp", true);
+					model.addAttribute("lastPageZone", true);
+					model.addAttribute("startPage", 1);
+					model.addAttribute("isLastPage", true);
+					model.addAttribute("searchedList", boardList);
+				} else {
+					totalPage = (int) Math.ceil((double) totalCount / 10);
+					if(page == 1) {
+						model.addAttribute("isFirstPage", true);
+					} else {
+						model.addAttribute("isFirstPage", false);
+					}
+					model.addAttribute("LastPage", totalPage);
+					model.addAttribute("SearchedPage", page);
+					
+					if(totalCount > 90) {
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						model.addAttribute("lessThanDpp", true);
+					}
+					
+					if((int) ((Math.floor((double) totalPage / 10) * 10) + 1) <= page) {
+						int startPage = (int)Math.floor((double) totalPage / 10) * 10 + 1;
+						model.addAttribute("lastPageZone", true);
+						model.addAttribute("startPage", startPage);
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						int startPage = (int)Math.floor((double) page / 10) * 10 + 1;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						System.out.println("totalPage: " + totalPage);
+					}
+					
+					
+					if(page % 10 == 0) {
+						int startPage = (int) Math.floor((double) page / 10) * 10 - 9;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						
+					}
+					
+					ArrayList<Board> searchedBoardList = new ArrayList<Board>();
+					int startIndex = (page - 1) * 10;
+					int index = 0;
+					if(page == totalPage) {
+						for(int i = startIndex;i < totalCount;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", true);
+					} else {
+						for(int i = startIndex;i < startIndex + 10;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", false);
+						
+					}
+					
+					
+					
+					System.out.println("searchedBoardListCount: " + searchedBoardList.size());
+					model.addAttribute("searchedList", searchedBoardList);
+				}
+				
+				if(boardList.size() == 0) {
+					model.addAttribute("emptyList", true);
+				} else {
+					model.addAttribute("emptyList", false);
+				}
+				
+				
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(searchCategory.equals("username")) {
+			int totalCount;
+			int totalPage;
+			int page = Integer.parseInt(pageParam);
+			System.out.println("searchedCurrentPage: " + page);
+			int LastPage;
+			model.addAttribute("Page", page);
+			try {
+				List<Board> boardList = boardService.GetBoardByUsername(search);
+				totalCount = boardList.size();
+				System.out.println("totalCount: " + totalCount);
+				if(totalCount <= 10) {
+					model.addAttribute("isFirstPage", true);
+					model.addAttribute("LastPage", 1);
+					model.addAttribute("SearchedPage", page);
+					model.addAttribute("lessThanDpp", true);
+					model.addAttribute("lastPageZone", true);
+					model.addAttribute("startPage", 1);
+					model.addAttribute("isLastPage", true);
+					model.addAttribute("searchedList", boardList);
+				} else {
+					totalPage = (int) Math.ceil((double) totalCount / 10);
+					if(page == 1) {
+						model.addAttribute("isFirstPage", true);
+					} else {
+						model.addAttribute("isFirstPage", false);
+					}
+					model.addAttribute("LastPage", totalPage);
+					model.addAttribute("SearchedPage", page);
+					
+					if(totalCount > 90) {
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						model.addAttribute("lessThanDpp", true);
+					}
+					
+					if((int) ((Math.floor((double) totalPage / 10) * 10) + 1) <= page) {
+						int startPage = (int)Math.floor((double) totalPage / 10) * 10 + 1;
+						model.addAttribute("lastPageZone", true);
+						model.addAttribute("startPage", startPage);
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						int startPage = (int)Math.floor((double) page / 10) * 10 + 1;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						System.out.println("totalPage: " + totalPage);
+					}
+					
+					
+					if(page % 10 == 0) {
+						int startPage = (int) Math.floor((double) page / 10) * 10 - 9;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						
+					}
+					
+					ArrayList<Board> searchedBoardList = new ArrayList<Board>();
+					int startIndex = (page - 1) * 10;
+					int index = 0;
+					if(page == totalPage) {
+						for(int i = startIndex;i < totalCount;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", true);
+					} else {
+						for(int i = startIndex;i < startIndex + 10;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", false);
+						
+					}
+					
+					
+					
+					System.out.println("searchedBoardListCount: " + searchedBoardList.size());
+					model.addAttribute("searchedList", searchedBoardList);
+				}
+				
+				if(boardList.size() == 0) {
+					model.addAttribute("emptyList", true);
+				} else {
+					model.addAttribute("emptyList", false);
+				}
+				
+				
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(searchCategory.equals("content")) {
+			int totalCount;
+			int totalPage;
+			int page = Integer.parseInt(pageParam);
+			System.out.println("searchedCurrentPage: " + page);
+			int LastPage;
+			model.addAttribute("Page", page);
+			try {
+				List<Board> boardList = boardService.GetBoardByContent(search);
+				totalCount = boardList.size();
+				System.out.println("totalCount: " + totalCount);
+				if(totalCount <= 10) {
+					model.addAttribute("isFirstPage", true);
+					model.addAttribute("LastPage", 1);
+					model.addAttribute("SearchedPage", page);
+					model.addAttribute("lessThanDpp", true);
+					model.addAttribute("lastPageZone", true);
+					model.addAttribute("startPage", 1);
+					model.addAttribute("isLastPage", true);
+					model.addAttribute("searchedList", boardList);
+				} else {
+					totalPage = (int) Math.ceil((double) totalCount / 10);
+					if(page == 1) {
+						model.addAttribute("isFirstPage", true);
+					} else {
+						model.addAttribute("isFirstPage", false);
+					}
+					model.addAttribute("LastPage", totalPage);
+					model.addAttribute("SearchedPage", page);
+					
+					if(totalCount > 90) {
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						model.addAttribute("lessThanDpp", true);
+					}
+					
+					if((int) ((Math.floor((double) totalPage / 10) * 10) + 1) <= page) {
+						int startPage = (int)Math.floor((double) totalPage / 10) * 10 + 1;
+						model.addAttribute("lastPageZone", true);
+						model.addAttribute("startPage", startPage);
+						model.addAttribute("lessThanDpp", false);
+					} else {
+						int startPage = (int)Math.floor((double) page / 10) * 10 + 1;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						System.out.println("totalPage: " + totalPage);
+					}
+					
+					
+					if(page % 10 == 0) {
+						int startPage = (int) Math.floor((double) page / 10) * 10 - 9;
+						model.addAttribute("lessThanDpp", false);
+						model.addAttribute("lastPageZone", false);
+						model.addAttribute("startPage", startPage);
+						
+					}
+					
+					ArrayList<Board> searchedBoardList = new ArrayList<Board>();
+					int startIndex = (page - 1) * 10;
+					int index = 0;
+					if(page == totalPage) {
+						for(int i = startIndex;i < totalCount;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", true);
+					} else {
+						for(int i = startIndex;i < startIndex + 10;i++) {
+							searchedBoardList.add(index, boardList.get(i));
+							index++;
+						}
+						model.addAttribute("isLastPage", false);
+						
+					}
+					
+					
+					
+					System.out.println("searchedBoardListCount: " + searchedBoardList.size());
+					model.addAttribute("searchedList", searchedBoardList);
+				}
+				
+				if(boardList.size() == 0) {
+					model.addAttribute("emptyList", true);
+				} else {
+					model.addAttribute("emptyList", false);
+				}
+				
+				
+				
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return "/board/index";
 	}
 }

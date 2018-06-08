@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Search;
 import com.killi8n.board.persistance.BoardDAO;
 
 @Service
@@ -49,5 +50,17 @@ public class BoardService {
 	
 	public void RemoveBoard(int id) {
 		boardDAO.RemoveBoard(id);
+	}
+	
+	public List<Board> GetBoardByTitle(Search search)  {
+		return boardDAO.GetBoardByTitle(search);
+	}
+	
+	public List<Board> GetBoardByUsername(Search search)  {
+		return boardDAO.GetBoardByUsername(search);
+	}
+	
+	public List<Board> GetBoardByContent(Search search)  {
+		return boardDAO.GetBoardByContent(search);
 	}
 }	

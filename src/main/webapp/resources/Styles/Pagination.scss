@@ -31,6 +31,22 @@
 		}
 	}
 	
+	.DisabledButton {
+		pointer-events: none;
+		background: #868e96;
+		font-size: 1.3rem;
+		font-weight: 700;
+		color: white;
+		padding-top: 0.35rem;
+		padding-right: 0.5rem;
+		padding-bottom: 0.35rem;
+		padding-left: 0.5rem;
+		user-select: none;
+		cursor: pointer;
+		
+
+	}
+	
 	.Page {
 		text-align: center;
 		flex: 1;
@@ -78,7 +94,7 @@
 			}
 			
 			&:active {
-				background: #228be6;
+				background: #3b5bdb;
 			}
 		}
 		

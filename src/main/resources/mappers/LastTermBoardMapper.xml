@@ -40,4 +40,16 @@
 		DELETE FROM BOARD WHERE id = #{id};
 	</delete>
 	
+	<select id="GetBoardByTitle" resultType="com.killi8n.board.domain.Board">
+		SELECT * FROM BOARD WHERE title LIKE CONCAT('%',#{word},'%');
+	</select>
+	
+	<select id="GetBoardByUsername" resultType="com.killi8n.board.domain.Board">
+		SELECT * FROM BOARD WHERE username LIKE CONCAT('%',#{word},'%');
+	</select>
+	
+	<select id="GetBoardByContent" resultType="com.killi8n.board.domain.Board">
+		SELECT * FROM BOARD WHERE content LIKE CONCAT('%',#{word},'%');
+	</select>
+	
 </mapper>

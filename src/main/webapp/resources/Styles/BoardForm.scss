@@ -7,6 +7,8 @@
   	margin-top: 1rem;
   	margin-bottom: 1rem;
   	padding: 1rem;
+
+  	
   	&:hover {
   		box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   	}
@@ -18,13 +20,27 @@
 	.Contents {
 		display: flex;
 		flex-direction: column;
+		flex: 1;
 		
+		.EmptyList {
+			display: flex;
+			padding: 1rem;
+			
+			
+			justify-content: center;
+			align-items: center;
+			
+			.Text {
+				font-size: 1.5rem;
+				font-weight: 600;
+			}
+		}
 		.Line {
 			display: flex;
 			flex-direction: column;
 			.Header {
 				display: flex;
-				flex: 1;
+				
 				border: 1px solid black;
 				.Head {
 					flex: 1;
@@ -53,7 +69,7 @@
 				.InnerLine {
 					cursor: pointer;
 					display: flex;
-					flex: 1;
+					/* flex: 1; */
 					
 					&:hover {
 						background: #e9ecef;
@@ -73,4 +89,40 @@
 			}
 		}
 	}
+}
+
+.SearchZone {
+	width: 1024px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	@media (max-width: 1024px) {
+		width: 90%;
+	}
+	
+	.Selector {
+		select {
+			height: 2rem;
+			font-size: 1.5rem;
+		}
+	}
+	
+	form {
+		input {
+			outline: none;
+			border: 1px solid #495057;
+			height: 2rem;
+			font-size: 1.5rem;
+			font-weight: 600;
+			width: 10rem;
+		}
+	}
+	
+	.Selector + form {
+		margin-left: 1rem;
+	}
+	
+	
 }

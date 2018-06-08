@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Search;
 
 @Repository
 public class BoardDAO {
@@ -51,5 +52,17 @@ public class BoardDAO {
 	
 	public void RemoveBoard(int id) {
 		session.delete(NAME_SPACE + ".RemoveBoard", id);
+	}
+	
+	public List<Board> GetBoardByTitle(Search search) {
+		return session.selectList(NAME_SPACE + ".GetBoardByTitle", search);
+	}
+	
+	public List<Board> GetBoardByUsername(Search search) {
+		return session.selectList(NAME_SPACE + ".GetBoardByUsername", search);
+	}
+	
+	public List<Board> GetBoardByContent(Search search) {
+		return session.selectList(NAME_SPACE + ".GetBoardByContent", search);
 	}
 }
