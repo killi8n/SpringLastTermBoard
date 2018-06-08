@@ -42,7 +42,61 @@
 </div>
 <div class="Pagination">
 	<a href="/board/index?page=${Page - 1 }" class="Button"> 이전 페이지 </a>
-	<div class="Page">Page ${Page }</div>
+	<div class="Page">
+		<c:if test="${lessThanDpp eq true }">
+			<c:forEach begin="1" end="${LastPage}"  var="i" >
+				<c:choose>
+					<c:when test="${i eq Page }">
+						<div class="PageButtonCurrent">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="PageButton">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</c:if>
+		
+		<c:if test="${lessThanDpp eq false and lastPageZone eq true }">
+			<c:forEach begin="${startPage }" end="${LastPage }"  var="i" >
+				<c:choose>
+					<c:when test="${i eq Page }">
+						<div class="PageButtonCurrent">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="PageButton">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</c:if>
+		
+		<c:if test="${lessThanDpp eq false and lastPageZone eq false }">
+			<c:forEach begin="${startPage }" end="${startPage + 9 }"  var="i" >
+				<c:choose>
+					<c:when test="${i eq Page }">
+						<div class="PageButtonCurrent">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="PageButton">
+							<a href="/board/index?page=${i }">${i }</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+				
+			</c:forEach>
+		</c:if>
+		
+		
+	</div>
 	<a href="/board/index?page=${Page + 1 }" class="Button"> 다음 페이지 </a>
 </div>
 

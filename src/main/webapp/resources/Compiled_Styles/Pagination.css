@@ -32,4 +32,52 @@
 .Pagination .Page {
   text-align: center;
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.Pagination .Page .PageButton {
+  background: #228be6;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  padding-top: 0.35rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.35rem;
+  padding-left: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+}
+.Pagination .Page .PageButton:hover {
+  background: #339af0;
+}
+.Pagination .Page .PageButton:active {
+  background: #228be6;
+}
+.Pagination .Page .PageButtonCurrent {
+  background: #3b5bdb;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  padding-top: 0.35rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.35rem;
+  padding-left: 0.5rem;
+  user-select: none;
+  cursor: pointer;
+}
+.Pagination .Page .PageButtonCurrent:hover {
+  background: #4263eb;
+}
+.Pagination .Page .PageButtonCurrent:active {
+  background: #228be6;
+}
+.Pagination .Page .PageButton + .PageButton {
+  margin-left: 1rem;
+}
+.Pagination .Page .PageButton + .PageButtonCurrent {
+  margin-left: 1rem;
+}
+.Pagination .Page .PageButtonCurrent + .PageButton {
+  margin-left: 1rem;
 }

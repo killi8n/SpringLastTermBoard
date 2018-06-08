@@ -37,10 +37,18 @@ public class BoardController {
 			}
 		}
 		
+		int displayingPageCount = 10;
+		int displayingPerPage = 10;
+		boolean lessThanDpp = false;
+		boolean lastPageZone = false;
 		
 		try {
 			count = boardService.GetCount();
-			double LastPage = Math.ceil(count / 10) + 1;
+			double LastPage = Math.ceil((double)count / 10);
+			
+			if(count == 0) {
+				return "board/index";
+			}
 			
 			if(page > LastPage) {
 				return "redirect:/board/index?page=" + (int) LastPage;
@@ -50,14 +58,61 @@ public class BoardController {
 				return "redirect:/board/index?page=1";
 			}
 			
+			
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("pagingValue", (page - 1) * 10 + "");
 	
 			
 			List<Board> boardList = boardService.GetAllBoards(map);
+			
+			
+			
+			System.out.println("LastPage: " + LastPage);
+
+			
 			model.addAttribute("boardList", boardList);
 			model.addAttribute("LastPage", LastPage);
 			model.addAttribute("Page", page);
+			model.addAttribute("totalCount", count);
+			int totalPage = (int) Math.ceil((double) count / displayingPerPage);
+			model.addAttribute("totalPage", totalPage);
+			
+			
+			if(displayingPageCount >= totalPage) {
+				lessThanDpp = true;
+				model.addAttribute("lessThanDpp", lessThanDpp);
+				return "board/index";
+			}
+			
+			if((int) ((Math.floor((double) LastPage / 10) * 10) + 1) <= page) {
+				lastPageZone = true;
+				model.addAttribute("lastPageZone", true);
+				model.addAttribute("lessThanDpp", false);
+				int startPage = (int)Math.floor((double) LastPage / displayingPageCount) * 10 + 1;
+				System.out.println("startPage: " + startPage);
+				model.addAttribute("startPage", startPage);
+				System.out.println("flagPage: " + (int) ((Math.floor((double) LastPage / 10) * 10) + 1));
+				return "board/index";
+			}
+			
+			if(page % displayingPageCount == 0) {
+				int startPage = (int) Math.floor((double) page / displayingPageCount) * 10 - 9;
+				model.addAttribute("lessThanDpp", false);
+				model.addAttribute("lastPageZone", false);
+				model.addAttribute("startPage", startPage);
+				return "board/index";
+			}
+			
+			
+			int startPage = (int) Math.floor((double) page / displayingPageCount) * 10 + 1;
+			model.addAttribute("lessThanDpp", false);
+			model.addAttribute("lastPageZone", false);
+			model.addAttribute("startPage", startPage);
+			System.out.println("Here");
+			
+			
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -238,6 +293,7 @@ public class BoardController {
 		}
 		
 		return "redirect:/board/index";
+//		return "board/editor";
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
