@@ -8,10 +8,19 @@ public class Board {
 	private String title;
 	private String content;
 	private int count;
+	private int good;
 	private Date createdAt;
 	
 	
 	
+	
+	
+	public int getGood() {
+		return good;
+	}
+	public void setGood(int good) {
+		this.good = good;
+	}
 	public int getCount() {
 		return count;
 	}

@@ -8,6 +8,15 @@
 	<form id="RemoveForm" action="/board/remove/${board.id }" method="POST">
 		<input type="hidden" value="${board.id }"/>
 	</form>
+	<form id="GoodCheckForm" action="/board/good" method="POST">
+		<input type="hidden" name="boardId" value="${board.id }"/>
+	</form>
+	<script type="text/javascript">
+		function clickGood() {
+			var willSubmitForm = document.getElementById("GoodCheckForm");
+			willSubmitForm.submit();
+		}
+	</script>
 	<div class="Contents">
 		<div class="Line">
 			<div class="Description">제목</div>
@@ -20,6 +29,18 @@
 		<div class="Line">
 			<div class="Description">조회수</div>
 			<div class="Content">${board.count }</div>
+		</div>
+		<div class="Line">
+			<div class="Description">좋아요</div>
+			<div class="Content">${board.good }</div>
+			<c:choose>
+				<c:when test="${alreadyChecked eq false or alreadyChecked eq null }">
+					<i class="far fa-thumbs-up" onclick="clickGood();"></i>
+				</c:when>
+				<c:otherwise>
+					<i class="fas fa-thumbs-up" onclick="clickGood();"></i>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="Line">
 			<div class="Description">날짜</div>

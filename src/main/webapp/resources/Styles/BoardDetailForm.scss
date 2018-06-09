@@ -31,6 +31,26 @@
 				font-weight: 500;
 			}
 			
+			.far {
+				font-size: 2.3rem; 
+				cursor:pointer; 
+				
+				&:hover {
+					font-size: 3rem;
+				}
+				
+				
+			}
+			
+			.fas {
+				font-size: 2.3rem; 
+				cursor:pointer; 
+				
+				&:hover {
+					font-size: 3rem;
+				}
+			}
+			
 			.Description + .Content {
 				margin-top: 1rem;
 			}

@@ -17,10 +17,17 @@ CREATE TABLE lasttermboard.BOARD (
 	title varchar(500) not null,
 	content varchar(5000) not null,
 	count int not null default 0,
+	good int not null default 0,
 	createdAt DATETIME default NOW() not null
 );
 
+
 CREATE TABLE lasttermboard.VIEW (
+	username varchar(50) not null,
+	boardId int not null
+);
+
+CREATE TABLE lasttermboard.GOOD (
 	username varchar(50) not null,
 	boardId int not null
 );

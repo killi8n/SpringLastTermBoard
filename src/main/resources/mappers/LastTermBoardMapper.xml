@@ -82,5 +82,24 @@
 		SELECT COUNT(*) FROM VIEW WHERE username = #{username} and boardId = #{boardId};
 	</select>
 	
+	<insert id="CheckGood">
+		INSERT INTO GOOD (username, boardId) VALUES (#{username}, #{boardId});
+	</insert>
+	
+	<delete id="DeleteGood">
+		DELETE FROM GOOD WHERE username = #{username} and boardId = #{boardId};
+	</delete>
+	
+	<update id="PlusGood">
+		UPDATE BOARD SET good = good + 1 WHERE id = #{boardId};
+	</update>
+	
+	<update id="MinusGood">
+		UPDATE BOARD SET good = good - 1 WHERE id = #{boardId};
+	</update>
+	
+	<select id="CheckGoodExist" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM GOOD WHERE username = #{username} and boardId = #{boardId};
+	</select>
 	
 </mapper>

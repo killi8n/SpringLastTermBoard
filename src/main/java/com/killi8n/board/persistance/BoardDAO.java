@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Good;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 
@@ -93,6 +94,26 @@ public class BoardDAO {
 	
 	public int CheckViewed(View view) {
 		return session.selectOne(NAME_SPACE + ".CheckViewed", view);
+	}
+	
+	public void CheckGood(Good good) {
+		session.insert(NAME_SPACE + ".CheckGood", good);
+	}
+	
+	public void PlusGood(Good good) {
+		session.update(NAME_SPACE + ".PlusGood", good);
+	}
+	
+	public void MinusGood(Good good) {
+		session.update(NAME_SPACE + ".MinusGood", good);
+	}
+	
+	public int CheckGoodExist(Good good) {
+		return session.selectOne(NAME_SPACE + ".CheckGoodExist", good);
+	}
+	
+	public void DeleteGood(Good good) {
+		session.delete(NAME_SPACE + ".DeleteGood", good);
 	}
 	
 }

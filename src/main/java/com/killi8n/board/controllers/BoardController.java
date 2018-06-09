@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Good;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 import com.killi8n.board.service.BoardService;
@@ -792,5 +793,35 @@ public class BoardController {
 		
 		
 		return "/board/index";
+	}
+	
+	@RequestMapping(value="/good", method=RequestMethod.POST)
+	public String goodAction(@RequestParam("boardId") int boardId, HttpSession session, Model model) {
+		
+		boolean alreadyChecked = false;
+		
+		try {
+			Good good = new Good();
+			good.setBoardId(boardId);
+			good.setUsername((String) session.getAttribute("username"));
+			int checked = boardService.CheckGoodExist(good);
+			if(checked == 1) {
+				alreadyChecked = true;
+				boardService.DeleteGood(good);
+				boardService.MinusGood(good);
+				model.addAttribute("alreadyChecked", alreadyChecked);
+				
+			} else {
+				boardService.CheckGood(good);
+				boardService.PlusGood(good);
+				
+				model.addAttribute("alreadyChecked", alreadyChecked);
+			}
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/board/" + boardId;
 	}
 }

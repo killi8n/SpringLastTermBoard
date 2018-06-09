@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
+import com.killi8n.board.domain.Good;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 import com.killi8n.board.persistance.BoardDAO;
@@ -91,5 +92,25 @@ public class BoardService {
 	
 	public int CheckViewed(View view) {
 		return boardDAO.CheckViewed(view);
+	}
+	
+	public void CheckGood(Good good) {
+		boardDAO.CheckGood(good);
+	}
+	
+	public void PlusGood(Good good) {
+		boardDAO.PlusGood(good);
+	}
+	
+	public void MinusGood(Good good) {
+		boardDAO.MinusGood(good);
+	}
+	
+	public int CheckGoodExist(Good good) {
+		return boardDAO.CheckGoodExist(good);
+	}
+	
+	public void DeleteGood(Good good) {
+		boardDAO.DeleteGood(good);
 	}
 }	
