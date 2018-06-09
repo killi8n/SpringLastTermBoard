@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
 import com.killi8n.board.domain.Search;
+import com.killi8n.board.domain.View;
 
 @Repository
 public class BoardDAO {
@@ -65,4 +66,33 @@ public class BoardDAO {
 	public List<Board> GetBoardByContent(Search search) {
 		return session.selectList(NAME_SPACE + ".GetBoardByContent", search);
 	}
+	
+	public Board GetNextBoardItem(int id) {
+		return session.selectOne(NAME_SPACE + ".GetNextBoardItem", id);
+	}
+	
+	public Board GetPrevBoardItem(int id) {
+		return session.selectOne(NAME_SPACE + ".GetPrevBoardItem", id);
+	}
+	
+	public int GetFirst() {
+		return session.selectOne(NAME_SPACE + ".GetFirst");
+	}
+	
+	public int GetLast() {
+		return session.selectOne(NAME_SPACE + ".GetLast");
+	}
+	
+	public void UpdateCount(int id) {
+		session.update(NAME_SPACE + ".UpdateCount", id);
+	}
+	
+	public void ViewThisItem(View view) {
+		session.insert(NAME_SPACE + ".ViewThisItem", view);
+	}
+	
+	public int CheckViewed(View view) {
+		return session.selectOne(NAME_SPACE + ".CheckViewed", view);
+	}
+	
 }

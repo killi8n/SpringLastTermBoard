@@ -52,4 +52,35 @@
 		SELECT * FROM BOARD WHERE content LIKE CONCAT('%',#{word},'%') ORDER BY id DESC;
 	</select>
 	
+	<select id="GetNextBoardItem" resultType="com.killi8n.board.domain.Board">
+		SELECT * FROM BOARD WHERE id = (SELECT MIN(id) FROM BOARD WHERE id > #{id});
+	</select>
+	
+	<select id="GetPrevBoardItem" resultType="com.killi8n.board.domain.Board">
+		<![CDATA[
+			SELECT * FROM BOARD WHERE id = (SELECT MAX(id) FROM BOARD WHERE id < #{id});
+		]]>
+	</select>
+	
+	<select id="GetFirst" resultType="java.lang.Integer">
+		SELECT MIN(id) FROM BOARD;
+	</select>
+	
+	<select id="GetLast" resultType="java.lang.Integer">
+		SELECT MAX(id) FROM BOARD;
+	</select>
+	
+	<update id="UpdateCount">
+		UPDATE BOARD SET count = count + 1 WHERE id = #{id};
+	</update>
+	
+	<insert id="ViewThisItem">
+		INSERT INTO VIEW (username, boardId) VALUES (#{username}, #{boardId});
+	</insert>
+	
+	<select id="CheckViewed" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM VIEW WHERE username = #{username} and boardId = #{boardId};
+	</select>
+	
+	
 </mapper>

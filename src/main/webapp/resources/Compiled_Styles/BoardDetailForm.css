@@ -30,7 +30,7 @@
 }
 .BoardDetailForm .Contents .Line .Content {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 .BoardDetailForm .Contents .Line .Description + .Content {
   margin-top: 1rem;
@@ -76,4 +76,12 @@
 }
 .BoardDetailForm .Contents .ButtonWrapper .UpdateButton + .RemoveButton {
   margin-left: 1rem;
+}
+.BoardDetailForm .Contents .NextPrevWrapper {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+}
+.BoardDetailForm .Contents .NextPrevWrapper .Right {
+  margin-left: auto;
 }

@@ -7,8 +7,17 @@ public class Board {
 	private String username;
 	private String title;
 	private String content;
+	private int count;
 	private Date createdAt;
 	
+	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getId() {
 		return id;
 	}

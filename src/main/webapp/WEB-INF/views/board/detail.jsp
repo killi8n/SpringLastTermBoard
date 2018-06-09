@@ -18,6 +18,10 @@
 			<div class="Content">${board.username }</div>
 		</div>
 		<div class="Line">
+			<div class="Description">조회수</div>
+			<div class="Content">${board.count }</div>
+		</div>
+		<div class="Line">
 			<div class="Description">날짜</div>
 			<div class="Content">
 				<f:formatDate value="${board.createdAt }" pattern="yyyy-MM-dd HH:mm" />
@@ -38,7 +42,27 @@
 				</div>
 			</div>
 		</c:if>
-
+		<div class="NextPrevWrapper">
+			<c:if test="${isFirst eq true }">
+				<a class="Right" href="/board/${nextBoardItem.id }">
+					<i class="fas fa-arrow-right"></i>
+				</a>
+			</c:if>
+			<c:if test="${isLast eq true }">
+				<a class="Left" href="/board/${prevBoardItem.id }">
+					<i class="fas fa-arrow-left"></i>
+				</a>
+			</c:if>
+			<c:if test="${isFirst eq false && isLast eq false }">
+				<a class="Left" href="/board/${prevBoardItem.id }">
+				<i class="fas fa-arrow-left"></i>
+				</a>
+				<a class="Right" href="/board/${nextBoardItem.id }">
+					<i class="fas fa-arrow-right"></i>
+				</a>
+			</c:if>
+			
+		</div>
 	</div>
 </div>
 <script>

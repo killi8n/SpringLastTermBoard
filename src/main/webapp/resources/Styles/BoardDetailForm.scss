@@ -28,7 +28,7 @@
 			
 			.Content {
 				font-size: 1.25rem;
-				font-weight: 600;
+				font-weight: 500;
 			}
 			
 			.Description + .Content {
@@ -82,6 +82,18 @@
 			
 			.UpdateButton + .RemoveButton {
 				margin-left: 1rem;
+			}
+		}
+		
+		.NextPrevWrapper {
+			width: 100%;
+			display: flex;
+			margin: 0 auto;
+			
+			.Left {
+			}
+			.Right {
+				margin-left: auto;
 			}
 		}
 	}

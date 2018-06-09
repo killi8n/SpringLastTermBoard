@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
 import com.killi8n.board.domain.Search;
+import com.killi8n.board.domain.View;
 import com.killi8n.board.service.BoardService;
 
 @Controller
@@ -357,9 +358,71 @@ public class BoardController {
 			return "redirect:/board/login";
 		}
 		
-		try {
+		
+		
+		
+		View view = new View();
+		view.setBoardId(id);
+		view.setUsername((String) session.getAttribute("username"));
+		
+		int checkViewed = boardService.CheckViewed(view);
+		if(checkViewed == 0) {
+			boardService.ViewThisItem(view);
+			boardService.UpdateCount(id);
+		} 
+		
+		
+		int firstId = boardService.GetFirst();
+		int lastId = boardService.GetLast();
+		
+		boolean isFirst = false;
+		boolean isLast = false;
+		
+		Board nextBoardItem;
+		Board prevBoardItem;
+		
+		
+		if(id == firstId) {
+			isFirst = true;
+			nextBoardItem = boardService.GetNextBoardItem(id);
+			model.addAttribute("nextBoardItem", nextBoardItem);
+			model.addAttribute("prevBoardItem", null);
 			board = boardService.GetBoardDetail(id);
 			model.addAttribute("board", board);
+			model.addAttribute("isFirst", isFirst);
+			model.addAttribute("isLast", isLast);
+			if(session.getAttribute("username").equals(board.getUsername())) {
+				model.addAttribute("owner", true);
+			}
+			
+			return "board/detail";
+		}
+		
+		if(id == lastId) {
+			isLast = true;
+			prevBoardItem = boardService.GetPrevBoardItem(id);
+			model.addAttribute("nextBoardItem", null);
+			model.addAttribute("prevBoardItem", prevBoardItem);
+			board = boardService.GetBoardDetail(id);
+			model.addAttribute("board", board);
+			model.addAttribute("isFirst", isFirst);
+			model.addAttribute("isLast", isLast);
+			if(session.getAttribute("username").equals(board.getUsername())) {
+				model.addAttribute("owner", true);
+			}
+			
+			return "board/detail";
+		}
+		
+		try {
+			board = boardService.GetBoardDetail(id);
+			nextBoardItem = boardService.GetNextBoardItem(id);
+			prevBoardItem = boardService.GetPrevBoardItem(id);
+			model.addAttribute("board", board);
+			model.addAttribute("isFirst", isFirst);
+			model.addAttribute("isLast", isLast);
+			model.addAttribute("nextBoardItem", nextBoardItem);
+			model.addAttribute("prevBoardItem", prevBoardItem);
 			if(session.getAttribute("username").equals(board.getUsername())) {
 				model.addAttribute("owner", true);
 			}
