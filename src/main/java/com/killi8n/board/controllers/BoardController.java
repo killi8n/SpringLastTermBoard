@@ -372,6 +372,17 @@ public class BoardController {
 			boardService.UpdateCount(id);
 		} 
 		
+		Good good = new Good();
+		good.setBoardId(id);
+		good.setUsername((String) session.getAttribute("username"));
+		
+		int alreadyChecked = boardService.CheckGoodExist(good);
+		if(alreadyChecked == 1) {
+			model.addAttribute("alreadyChecked", true);
+		} else {
+			model.addAttribute("alreadyChecked", false);
+		}
+		
 		
 		int firstId = boardService.GetFirst();
 		int lastId = boardService.GetLast();
@@ -805,17 +816,18 @@ public class BoardController {
 			good.setBoardId(boardId);
 			good.setUsername((String) session.getAttribute("username"));
 			int checked = boardService.CheckGoodExist(good);
+			System.out.println("checked: " + checked);
 			if(checked == 1) {
 				alreadyChecked = true;
 				boardService.DeleteGood(good);
 				boardService.MinusGood(good);
-				model.addAttribute("alreadyChecked", alreadyChecked);
+//				model.addAttribute("alreadyChecked", alreadyChecked);
 				
 			} else {
 				boardService.CheckGood(good);
 				boardService.PlusGood(good);
 				
-				model.addAttribute("alreadyChecked", alreadyChecked);
+//				model.addAttribute("alreadyChecked", alreadyChecked);
 			}
 			
 			
