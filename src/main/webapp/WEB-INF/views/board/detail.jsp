@@ -122,7 +122,7 @@
 			</div>
 		</div>
 		<div class="NextPrevWrapper">
-			<c:if test="${isFirst eq true }">
+			<c:if test="${isFirst eq true and nextBoardItem ne null}">
 				<a class="Right" href="/board/${nextBoardItem.id }">
 					<i class="fas fa-arrow-right"></i>
 				</a>

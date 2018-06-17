@@ -492,7 +492,10 @@ public class BoardController {
 		if(id == firstId) {
 			isFirst = true;
 			nextBoardItem = boardService.GetNextBoardItem(id);
-			model.addAttribute("nextBoardItem", nextBoardItem);
+			if(boardService.GetCount() > 1) {
+				model.addAttribute("nextBoardItem", nextBoardItem);
+			}
+			
 			model.addAttribute("prevBoardItem", null);
 			board = boardService.GetBoardDetail(id);
 			model.addAttribute("board", board);
