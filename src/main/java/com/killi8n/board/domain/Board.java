@@ -7,6 +7,9 @@ public class Board {
 	private String username;
 	private String title;
 	private String content;
+	private String filename;
+	private String savename;
+	private long filesize;
 	private int count;
 	private int good;
 	private Date createdAt;
@@ -57,6 +60,27 @@ public class Board {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getSavename() {
+		return savename;
+	}
+	public void setSavename(String savename) {
+		this.savename = savename;
+	}
+	public long getFilesize() {
+		return filesize;
+	}
+	public void setFilesize(long filesize) {
+		this.filesize = filesize;
+	}
+	
+	
+	
 	
 	
 	

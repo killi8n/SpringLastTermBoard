@@ -31,6 +31,19 @@
 				font-weight: 500;
 			}
 			
+			.ImageWrapper {
+				display: flex;
+				justify-content: center;
+				.Image {
+					width: 300px;
+					height: 300px;
+					@media (max-width: 1024px) {
+						width: 50%;
+						height: 50%;
+					}
+				}
+			}
+			
 			.far {
 				font-size: 2.3rem; 
 				cursor:pointer; 
@@ -104,6 +117,147 @@
 				margin-left: 1rem;
 			}
 		}
+		
+		.ReplyZone {
+			display: flex;
+			flex-direction: column;
+			margin-bottom: 1rem;
+			
+			.ReplyDescription {
+				font-size: 1.5rem;
+				font-weight: 700;
+			}
+			
+			.ReplyTextArea {
+				display: flex;
+				
+				.TextArea {
+					flex: 1;
+					outline: none;
+					border: 1px solid #495057;
+					height: 3rem;
+					font-size: 1.25rem;
+				}
+			}
+			
+			.ReplyButton {
+				display: flex;
+				
+				.Text {
+					
+					font-size: 1.25rem;
+					font-weight: 600;
+					color: white;
+					padding-top: 0.25rem;
+					padding-right: 0.3rem;
+					padding-bottom: 0.25rem;
+					padding-left: 0.3rem;
+					background: #1c7ed6;
+					
+					user-select: none;
+					cursor: pointer;
+					
+					&:hover {
+						background: #228be6;
+					}
+					
+					&:active {
+						background: #1c7ed6;
+					}
+				}
+					
+			}
+			
+			.ReplyLists {
+				display: flex;
+				flex-direction: column;
+				margin-top: 1rem;
+				.Line {
+					display: flex;
+					flex-direction: row;
+					.Left {
+						display: flex;
+						align-items: center;
+						.UserName {
+							font-size: 1.2rem;
+							font-weight: 700;
+						}
+					}
+					.Right {
+						display: flex;
+						flex-direction: column;
+						.ReplyText {
+							font-weight: 600;
+						}
+						.ReplyDate {
+							font-weight: 500;
+							.UpdateOrDeleteZone {
+								display: flex;
+								
+								.Update {
+									background: #4263eb;
+									padding-top: 0.25rem;
+									padding-right: 0.3rem;
+									padding-bottom: 0.25rem;
+									padding-left: 0.3rem;
+									color: white;
+									font-weight: 500;
+									user-select: none;
+									cursor: pointer;
+								}
+								.Delete {
+									background: #f03e3e;
+									padding-top: 0.25rem;
+									padding-right: 0.3rem;
+									padding-bottom: 0.25rem;
+									padding-left: 0.3rem;
+									color: white;
+									font-weight: 500;
+									user-select: none;
+									cursor: pointer;
+								}
+								
+								.Update + .Delete {
+									margin-left: 1rem;
+								}
+								
+								.Delete + .Update {
+									margin-left: 1rem;
+								}
+								.Update + .Update {
+									margin-left: 1rem;
+								}
+							}
+						}
+					}
+					
+					.Left + .Right {
+						margin-left: 1rem;
+					}
+				}
+				
+				.Line + .Line {
+					margin-top: 0.5rem;
+					padding-top: 0.5rem;
+					border-top: 1px solid #495057;
+				}
+					
+						
+			}
+			
+			.ReplyDescription + .ReplyTextArea {
+				margin-top: 1rem;
+				
+			}
+			
+			.ReplyTextArea + .ReplyButton {
+				margin-top: 1rem;
+			}
+		}
+		
+		
+		
+		
 		
 		.NextPrevWrapper {
 			width: 100%;

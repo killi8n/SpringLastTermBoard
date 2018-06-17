@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
 import com.killi8n.board.domain.Good;
+import com.killi8n.board.domain.Reply;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 
@@ -116,4 +117,27 @@ public class BoardDAO {
 		session.delete(NAME_SPACE + ".DeleteGood", good);
 	}
 	
+	public int CreateReplyByBoardId(Reply reply) {
+		return session.insert(NAME_SPACE + ".CreateReplyByBoardId", reply);
+	}
+	
+	public List<Reply> GetReplyListByBoardId(int boardId) {
+		return session.selectList(NAME_SPACE + ".GetReplyListByBoardId", boardId);
+	}
+	
+	public int GetLastReply() {
+		return session.selectOne(NAME_SPACE + ".GetLastReply");
+	}
+	
+	public Reply GetReplyById(int id) {
+		return session.selectOne(NAME_SPACE + ".GetReplyById", id);
+	}
+	
+	public void UpdateReplyById(Reply reply) {
+		session.update(NAME_SPACE + ".UpdateReplyById", reply);
+	}
+	
+	public void DeleteReplyById(int id) {
+		session.delete(NAME_SPACE + ".DeleteReplyById", id);
+	}
 }

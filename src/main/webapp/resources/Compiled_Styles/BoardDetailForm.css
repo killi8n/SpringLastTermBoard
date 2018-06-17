@@ -32,6 +32,20 @@
   font-size: 1.25rem;
   font-weight: 500;
 }
+.BoardDetailForm .Contents .Line .ImageWrapper {
+  display: flex;
+  justify-content: center;
+}
+.BoardDetailForm .Contents .Line .ImageWrapper .Image {
+  width: 300px;
+  height: 300px;
+}
+@media (max-width: 1024px) {
+  .BoardDetailForm .Contents .Line .ImageWrapper .Image {
+    width: 50%;
+    height: 50%;
+  }
+}
 .BoardDetailForm .Contents .Line .far {
   font-size: 2.3rem;
   cursor: pointer;
@@ -90,6 +104,121 @@
 }
 .BoardDetailForm .Contents .ButtonWrapper .UpdateButton + .RemoveButton {
   margin-left: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyDescription {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyTextArea {
+  display: flex;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyTextArea .TextArea {
+  flex: 1;
+  outline: none;
+  border: 1px solid #495057;
+  height: 3rem;
+  font-size: 1.25rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyButton {
+  display: flex;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyButton .Text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  padding-top: 0.25rem;
+  padding-right: 0.3rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.3rem;
+  background: #1c7ed6;
+  user-select: none;
+  cursor: pointer;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyButton .Text:hover {
+  background: #228be6;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyButton .Text:active {
+  background: #1c7ed6;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line {
+  display: flex;
+  flex-direction: row;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Left {
+  display: flex;
+  align-items: center;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Left .UserName {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right {
+  display: flex;
+  flex-direction: column;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyText {
+  font-weight: 600;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate {
+  font-weight: 500;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone {
+  display: flex;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone .Update {
+  background: #4263eb;
+  padding-top: 0.25rem;
+  padding-right: 0.3rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.3rem;
+  color: white;
+  font-weight: 500;
+  user-select: none;
+  cursor: pointer;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone .Delete {
+  background: #f03e3e;
+  padding-top: 0.25rem;
+  padding-right: 0.3rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.3rem;
+  color: white;
+  font-weight: 500;
+  user-select: none;
+  cursor: pointer;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone .Update + .Delete {
+  margin-left: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone .Delete + .Update {
+  margin-left: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Right .ReplyDate .UpdateOrDeleteZone .Update + .Update {
+  margin-left: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line .Left + .Right {
+  margin-left: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyLists .Line + .Line {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #495057;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyDescription + .ReplyTextArea {
+  margin-top: 1rem;
+}
+.BoardDetailForm .Contents .ReplyZone .ReplyTextArea + .ReplyButton {
+  margin-top: 1rem;
 }
 .BoardDetailForm .Contents .NextPrevWrapper {
   width: 100%;

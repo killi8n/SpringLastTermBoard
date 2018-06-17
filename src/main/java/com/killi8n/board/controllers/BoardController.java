@@ -1,23 +1,35 @@
 package com.killi8n.board.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
 import com.killi8n.board.domain.Good;
+import com.killi8n.board.domain.Reply;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 import com.killi8n.board.service.BoardService;
@@ -28,6 +40,9 @@ public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	
+	private final String basePath = "/tmp/upload/";
 	
 	@RequestMapping(value="/index", method=RequestMethod.GET)
 	public String index(HttpSession session, 
@@ -315,6 +330,7 @@ public class BoardController {
 				if(!session.getAttribute("username").equals(board.getUsername())) {
 					return "redirect:/board/index";
 				}
+				board.setContent(board.getContent().replaceAll("<br/>", "\r\n"));
 				model.addAttribute("board", board);
 				model.addAttribute("isUpdate", true);
 			}
@@ -327,11 +343,44 @@ public class BoardController {
 		return "board/editor";
 	}
 	
+	@RequestMapping(value="/image", method=RequestMethod.GET)
+	public void image(HttpServletRequest request, HttpServletResponse response) {
+		String saveName = request.getQueryString();
+		if (saveName == null) {
+            return;
+        }
+
+		File f = new File(basePath + saveName);
+		InputStream is = null;
+        try {
+            is = new FileInputStream(f);
+            OutputStream oos = response.getOutputStream();
+
+            byte[] buf = new byte[8192];
+            int c = 0;
+            while ((c = is.read(buf, 0, buf.length)) > 0) {
+                oos.write(buf, 0, c);
+                oos.flush();
+            }
+            oos.close();
+            is.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	@RequestMapping(value="/editor", method=RequestMethod.POST)
-	public String editorAction(Board board, RedirectAttributes redirectAttributes)
+	public String editorAction(
+			RedirectAttributes redirectAttributes, 
+			@RequestParam(required=false, value="file") MultipartFile file,
+			@RequestParam("username") String username,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content)
 	{
-		String title = board.getTitle();
-		String content = board.getContent();
+//		String title = board.getTitle();
+//		String content = board.getContent();
+		System.out.println("filename: " + file.getOriginalFilename());
 		if(title == "" || title.trim().equals("")) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "제목을 입력해주세요.");
 			return "redirect:/board/editor";
@@ -342,15 +391,54 @@ public class BoardController {
 			return "redirect:/board/editor";
 		}
 		
+		
+		
 		try {
+			Board board = new Board();
+			board.setTitle(title);
+			board.setUsername(username);
+			board.setContent(content);
+//			System.out.println("username: " +username);
+			board.setContent(board.getContent().replaceAll("\r\n", "<br/>"));
+			
+			if(!file.isEmpty()) {
+				String saveName = String.valueOf(new Date().getTime());
+				OutputStream fos = null;
+				
+				try {
+					fos = new FileOutputStream(basePath + File.separator + saveName);
+					
+					fos.write(file.getBytes());
+				} catch(Exception e) {
+					e.printStackTrace();
+				} finally {
+					try {
+		                if (fos != null) {
+		                    fos.close();
+		                }
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+				}
+				board.setFilename(file.getOriginalFilename());
+				board.setSavename(saveName);
+				board.setFilesize(file.getSize());
+				
+				
+				
+			}
+			
 			boardService.WriteBoard(board);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+		
 		return "redirect:/board/index";
 //		return "board/editor";
 	}
+	
+//	private void saveFile()
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String boardDetailPage(@PathVariable int id, Board board, HttpSession session, Model model) {
@@ -393,6 +481,13 @@ public class BoardController {
 		Board nextBoardItem;
 		Board prevBoardItem;
 		
+		String username = (String) session.getAttribute("username");
+		model.addAttribute("username", username);
+		
+		List<Reply> replyList = boardService.GetReplyListByBoardId(id);
+		if(replyList.size() > 0) {
+			model.addAttribute("replyList", replyList);
+		}
 		
 		if(id == firstId) {
 			isFirst = true;
@@ -447,23 +542,83 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String updateBoardAction(HttpSession session, Board board, RedirectAttributes redirectAttributes) {
+	public String updateBoardAction(
+			HttpSession session, 
+			RedirectAttributes redirectAttributes,
+			@RequestParam("username") String username,
+			@RequestParam("title") String title,
+			@RequestParam("content") String content,
+			@RequestParam("id") String id,
+			@RequestParam(value="file", required=false) MultipartFile file) {
 		
-		if(!session.getAttribute("username").equals(board.getUsername())) {
+		System.out.println("username: " + username);
+		System.out.println("title: " + title);
+		System.out.println("content: " + content);
+		System.out.println("id: " + id);
+		
+		if(!session.getAttribute("username").equals(username)) {
 			return "redirect:/board/index";
 		}
 		
-		if(board.getTitle().equals("") || board.getTitle().trim().length() == 0) {
+		if(title.equals("") || title.trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "제목을 입력해주세요.");
-			return "redirect:/board/editor?id=" + board.getId();
+			return "redirect:/board/editor?id=" + id;
 		}
 		
-		if(board.getContent().equals("") || board.getContent().trim().length() == 0) {
+		if(content.equals("") || content.trim().length() == 0) {
 			redirectAttributes.addFlashAttribute("ErrorMessage", "내용을 입력해주세요.");
-			return "redirect:/board/editor?id=" + board.getId();
+			return "redirect:/board/editor?id=" + id;
 		}
 		
 		try {
+			
+			Board board = new Board();
+			board.setTitle(title);
+			board.setContent(content.replaceAll("\r\n", "<br/>"));
+			board.setId(Integer.parseInt(id));
+			board.setUsername(username);
+			
+			
+			
+			if(!file.isEmpty()) {
+				
+				String saveName = String.valueOf(new Date().getTime());
+
+		        OutputStream fos = null;
+
+		        try {
+		            fos = new FileOutputStream(basePath + File.separator + saveName);
+
+		            fos.write(file.getBytes());
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        } finally {
+		            try {
+		                if (fos != null) {
+		                    fos.close();
+		                }
+		            } catch (IOException e) {
+		                e.printStackTrace();
+		            }
+		        }
+		        
+		        board.setFilename(file.getOriginalFilename());
+		        board.setSavename(saveName);
+		        board.setFilesize(file.getSize());
+		        
+		        
+		        
+			}
+			
+			Board oldBoard = boardService.GetBoardDetail(Integer.parseInt(id));
+	        if(oldBoard.getSavename() != null) {
+	        	File f = new File(basePath + oldBoard.getSavename());
+	        	if(f.exists()) {
+	        		f.delete();
+	        	}
+	        }
+			
+//			board.setContent(board.getContent().replaceAll("\r\n", "<br/>"));
 			boardService.UpdateBoard(board);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -479,6 +634,12 @@ public class BoardController {
 		
 		try {
 			board = boardService.GetBoardDetail(id);
+			if(board.getSavename() != null) {
+				File f = new File(basePath + board.getSavename());
+				if(f.exists()) {
+					f.delete();
+				}
+			}
 			if(!session.getAttribute("username").equals(board.getUsername())) {
 				return "redirect:/board/index";
 			}

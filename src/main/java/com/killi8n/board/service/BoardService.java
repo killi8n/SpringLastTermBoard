@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.killi8n.board.domain.Account;
 import com.killi8n.board.domain.Board;
 import com.killi8n.board.domain.Good;
+import com.killi8n.board.domain.Reply;
 import com.killi8n.board.domain.Search;
 import com.killi8n.board.domain.View;
 import com.killi8n.board.persistance.BoardDAO;
@@ -112,5 +113,29 @@ public class BoardService {
 	
 	public void DeleteGood(Good good) {
 		boardDAO.DeleteGood(good);
+	}
+	
+	public int CreateReplyByBoardId(Reply reply) {
+		return boardDAO.CreateReplyByBoardId(reply);
+	}
+	
+	public List<Reply> GetReplyListByBoardId(int boardId) {
+		return boardDAO.GetReplyListByBoardId(boardId);
+	}
+	
+	public int GetLastReply() {
+		return boardDAO.GetLastReply();
+	}
+	
+	public Reply GetReplyById(int id) {
+		return boardDAO.GetReplyById(id);
+	}
+	
+	public void UpdateReplyById(Reply reply) {
+		boardDAO.UpdateReplyById(reply);
+	}
+	
+	public void DeleteReplyById(int id) {
+		boardDAO.DeleteReplyById(id);
 	}
 }	

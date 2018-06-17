@@ -3,6 +3,7 @@ create database lasttermboard;
 GRANT ALL PRIVILEGES ON lasttermboard.* TO lasttermuser@localhost
  IDENTIFIED BY 'lastterm1234' WITH GRANT OPTION;
  
+ // 멤버 
 CREATE TABLE lasttermboard.ACCOUNT (
 	id int not null auto_increment primary key,
 	username varchar(50) not null,
@@ -11,23 +12,38 @@ CREATE TABLE lasttermboard.ACCOUNT (
 	createdAt DATETIME default NOW() not null
 );
 
+// 게시판 
 CREATE TABLE lasttermboard.BOARD (
 	id int not null auto_increment primary key,
 	username varchar(50) not null,
 	title varchar(500) not null,
 	content varchar(5000) not null,
+	filename varchar(255),
+	savename varchar(255),
+	filesize int,
 	count int not null default 0,
 	good int not null default 0,
 	createdAt DATETIME default NOW() not null
 );
 
-
+// 조회수
 CREATE TABLE lasttermboard.VIEW (
 	username varchar(50) not null,
 	boardId int not null
 );
 
+// 좋아요 
 CREATE TABLE lasttermboard.GOOD (
 	username varchar(50) not null,
 	boardId int not null
 );
+
+CREATE TABLE lasttermboard.REPLY (
+	id int not null auto_increment primary key,
+	boardId int not null default 0,
+	replytext varchar(1000) not null,
+	username varchar(50) not null,
+	regdate timestamp NOT NULL default NOW(),
+	updatedate timestamp not null default now()
+);
+

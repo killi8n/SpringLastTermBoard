@@ -15,7 +15,8 @@
 	</select>
 	
 	<insert id="WriteBoard">
-		INSERT INTO BOARD (username, title, content) VALUES (#{username}, #{title}, #{content});
+		INSERT INTO BOARD (username, title, content, filename, savename, filesize) 
+		VALUES (#{username}, #{title}, #{content}, #{filename}, #{savename}, #{filesize});
 	</insert>
 	
 	<select id="GetAllBoards" parameterType="map" resultType="com.killi8n.board.domain.Board">
@@ -33,7 +34,8 @@
 	</select>
 	
 	<update id="UpdateBoard">
-		UPDATE BOARD SET title = #{title}, content = #{content} WHERE id = #{id};
+		UPDATE BOARD SET title = #{title}, content = #{content}, savename = #{savename}, 
+		filename = #{filename}, filesize = #{filesize} WHERE id = #{id};
 	</update>
 	
 	<delete id="RemoveBoard">
@@ -101,5 +103,32 @@
 	<select id="CheckGoodExist" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM GOOD WHERE username = #{username} and boardId = #{boardId};
 	</select>
+	
+	<insert id="CreateReplyByBoardId">
+		INSERT INTO REPLY (boardId, replytext, username) VALUES (#{boardId}, #{replytext}, #{username});
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+        	SELECT LAST_INSERT_ID()
+    	</selectKey>
+	</insert>
+	
+	<select id="GetReplyListByBoardId" resultType="com.killi8n.board.domain.Reply">
+		SELECT * FROM REPLY WHERE boardId = #{boardId};
+	</select>
+	
+	<select id="GetLastReply" resultType="java.lang.Integer">
+		SELECT MAX(id) FROM REPLY;
+	</select>
+	
+	<select id="GetReplyById" resultType="com.killi8n.board.domain.Reply">
+		SELECT * FROM REPLY WHERE id = #{id};
+	</select>
+	
+	<update id="UpdateReplyById">
+		UPDATE REPLY SET replytext = #{replytext} WHERE id = #{id};
+	</update>
+	
+	<delete id="DeleteReplyById">
+		DELETE FROM REPLY WHERE id = #{id};
+	</delete>
 	
 </mapper>

@@ -5,12 +5,12 @@
 <c:choose>
 	<c:when test="${isUpdate eq true }">
 		<form class="EditorForm" name="EditorForm" action="/board/update"
-		method="POST">
+		method="POST" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${board.id }"/>
 	</c:when>
 	<c:otherwise>
 		<form class="EditorForm" name="EditorForm" action="/board/editor"
-		method="POST">
+		method="POST" enctype="multipart/form-data">
 	</c:otherwise>
 </c:choose>
 
@@ -33,6 +33,14 @@
 		</div>
 		<div class="InputWrapper">
 			<textarea name="content" class="InputContent">${board.content }</textarea>
+		</div>
+	</div>
+	<div class="Line">
+		<div class="Description">
+			파일 
+		</div>
+		<div class="InputWrapper">
+			<input type="file" name="file"/>
 		</div>
 	</div>
 	<div class="ButtonWrapper">
