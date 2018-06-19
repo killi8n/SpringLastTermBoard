@@ -217,13 +217,17 @@
 	}
 	
 	function deleteReplyRequest(event) {
-		console.log(event.target.id);
+		/* console.log(event.target.id); */
 		
-		var targetThing = event.target;
+		/* var targetThing = event.target;
 		var $targetTarget = targetThing.parentNode.parentNode.parentNode.parentNode;
 		
+		var $self = $(this);
 		
+		console.log($self); */
 		
+		var parentThing = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+		var childThing = event.target.parentNode.parentNode.parentNode.parentNode;
 		
 		$.ajax({
 			contentType: "application/json",
@@ -231,7 +235,10 @@
 			type: 'DELETE',
 			success: function(data) {
 				if(data === "success") {
-					$targetTarget.remove();
+					/* $targetTarget.remove(); */
+					parentThing.removeChild(childThing);
+					/* console.log($self); */
+					/* $self.parent().parent().parent().parent().remove(); */
 				}
 			},
 			error: function(err) {
