@@ -277,7 +277,6 @@
 							var day = replyDate.getDate();
 							var hour = replyDate.getHours();
 							var minute = replyDate.getMinutes();
-							minute = minute.length > 1 ? minute : '0' + minute;
 							
 							var replyText = data.replytext;
 							var username = data.username;
