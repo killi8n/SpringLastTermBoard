@@ -31,8 +31,8 @@
 				<div class="RightMenu">
 					<c:choose>
 						<c:when test="${logged eq true }">
-							<div class="Button" onclick="logoutAction()"> 로그아웃 </div>
 							<a href="/board/editor" class="Button"> 글쓰기 </a>
+							<div class="Button" onclick="logoutAction()"> 로그아웃 </div>
 						</c:when>
 						<c:otherwise>
 							<a href="/board/login" class="Button"> 로그인 / 회원가입 </a>

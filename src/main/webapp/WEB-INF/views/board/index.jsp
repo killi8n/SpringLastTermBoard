@@ -262,14 +262,14 @@
 			<c:forEach begin="1" end="${LastPage}" var="i">
 				<c:choose>
 					<c:when test="${i eq Page }">
-						<div class="PageButtonCurrent">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButtonCurrent">
+							${i }
+						</a>
 					</c:when>
 					<c:otherwise>
-						<div class="PageButton">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButton">
+							${i }
+						</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -279,14 +279,14 @@
 			<c:forEach begin="${startPage }" end="${LastPage }" var="i">
 				<c:choose>
 					<c:when test="${i eq Page }">
-						<div class="PageButtonCurrent">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButtonCurrent">
+							${i }
+						</a>
 					</c:when>
 					<c:otherwise>
-						<div class="PageButton">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButton">
+							${i }
+						</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
@@ -296,14 +296,14 @@
 			<c:forEach begin="${startPage }" end="${startPage + 9 }" var="i">
 				<c:choose>
 					<c:when test="${i eq Page }">
-						<div class="PageButtonCurrent">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButtonCurrent">
+							${i }
+						</a>
 					</c:when>
 					<c:otherwise>
-						<div class="PageButton">
-							<a href="/board/index?page=${i }">${i }</a>
-						</div>
+						<a href="/board/index?page=${i }" class="PageButton">
+							${i }
+						</a>
 					</c:otherwise>
 				</c:choose>
 
