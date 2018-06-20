@@ -270,13 +270,14 @@
 							/* var responseText = data.responseText; */
 							console.log(data);
 							
-							var replyDate = new Date(data.regdate);
+							var replyDate = new Date(data.regdate - 3600000 * 9);
 							var year = replyDate.getFullYear();
 							var month = replyDate.getMonth() + 1;
 							month = month.length > 1 ? month : '0' + month;
 							var day = replyDate.getDate();
 							var hour = replyDate.getHours();
 							var minute = replyDate.getMinutes();
+							minute = minute.length > 1 ? minute : '0' + minute;
 							
 							var replyText = data.replytext;
 							var username = data.username;
